@@ -12,7 +12,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
 
     cy.get('#firstName').should('be.visible').type('Marcelo')
     cy.get('#lastName').should('be.visible').type('Lima')
-    cy.get('#email').should('be.visible').type('celo@gmail.com')
+    cy.get('#email').should('be.visible').type('teste@teste.com')
     cy.get('#phone').should('be.visible').type('553199999999')
     cy.get('#open-text-area').should('be.visible').type(longText, { delay: 5 })
     cy.get('button[type="submit"]').click()
