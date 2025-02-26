@@ -40,7 +40,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
 
   it('preenche e limpa os campos nome, sobrenome, email e telefone', () => {
     const first = 'Marcelo', last = 'Lima', email = 'teste@teste.com', phone = 55319898971258
-
+    // utilizando alias
     cy.get('#firstName').as('firstInput').type(first).should('have.value',first)
     cy.get('#lastName').as('lastInput').type(last).should('have.value',last)
     cy.get('#email').as('emailInput').type(email).should('have.value',email)
@@ -86,6 +86,42 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#product')
       .select(1)
       .should('have.value','blog')
+  })
+
+  it('marca o tipo de atendimento "Feedback"', () => {
+    cy.get('input[type="radio"]')
+      .check('feedback')
+      .should('be.checked')
   })  
     
+  it('marca cada tipo de atendimento', () => {
+    cy.get('input[type="radio"]').each(($radio) => {
+      cy.wrap($radio)
+        .check()
+        .should('be.checked')
+    })
+  })  
+
+  it('marca ambos checkboxes, depois desmarca o último', () => {
+    cy.get('input[type="checkbox"]')
+      .check()
+      .should('be.checked')
+      .last()
+      .uncheck()
+      .should('not.be.checked')
+  })
+
+  it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido ao enviar o formulário', () => {
+    cy.get('#phone-checkbox').check()
+    cy.get('button[type="submit"]').click()
+    cy.contains('span.error > strong', 'Valide os campos obrigatórios!');
+  })
+
+  it.only('seleciona um arquivo da pasta fixtures', () => {
+    cy.get('input[type="file"]')    
+      .selectFile('cypress/fixtures/example.json')
+      .then(input => {
+        expect(input[0].files[0].name).to.equal('example.json')
+      })
+  })
 })
