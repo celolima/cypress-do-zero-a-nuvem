@@ -24,8 +24,9 @@ Or, run `npm run cy:open` to open the Cypress App on a desktop viewport.
 
 ### To execute on Ubuntu
 
-xhost +local:
-sudo npm run cy:open
+`xhost +local:`
+
+`sudo npm run cy:open`
 
 ### Mobile
 
