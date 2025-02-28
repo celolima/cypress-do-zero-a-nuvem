@@ -117,11 +117,32 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.contains('span.error > strong', 'Valide os campos obrigatórios!');
   })
 
-  it.only('seleciona um arquivo da pasta fixtures', () => {
+  it('seleciona um arquivo da pasta fixtures', () => {
     cy.get('input[type="file"]')    
       .selectFile('cypress/fixtures/example.json')
-      .then(input => {
+      .should(input => {
         expect(input[0].files[0].name).to.equal('example.json')
       })
+  })
+
+  it('seleciona um arquivo da pasta fixtures e simula um drag-and-drop', () => {
+    cy.get('input[type="file"]')    
+      .selectFile('cypress/fixtures/example.json', { action: 'drag-drop' })
+      .should(input => {
+        expect(input[0].files[0].name).to.equal('example.json')
+      })
+  })
+
+  it.only('seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', () => {
+    cy.fixture('example.json').as('sampleFile')
+    cy.get('input[type="file"]')    
+      .selectFile('@sampleFile')
+      .should(input => {
+        expect(input[0].files[0].name).to.equal('example.json')
+      })
+  })
+
+  it.only('verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', () => {
+    cy.get('a[href="privacy.html"]').should('have.attr', 'target', '_blank')
   })
 })
